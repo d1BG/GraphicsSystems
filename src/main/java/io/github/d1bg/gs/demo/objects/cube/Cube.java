@@ -2,12 +2,12 @@ package io.github.d1bg.gs.demo.objects.cube;
 
 import io.github.d1bg.gs.core.input.Action;
 import io.github.d1bg.gs.core.input.InputHandler;
-import io.github.d1bg.gs.demo.assets.block.CubeGeometry;
-import io.github.d1bg.gs.material.Material;
+import io.github.d1bg.gs.demo.assets.block.*;
+import io.github.d1bg.gs.material.Texture;
 import io.github.d1bg.gs.mesh.DrawMode;
 import io.github.d1bg.gs.mesh.Mesh;
-import io.github.d1bg.gs.model.MaterializedModelElement;
 import io.github.d1bg.gs.model.ModelElement;
+import io.github.d1bg.gs.model.TexturedModelElement;
 import io.github.d1bg.gs.scene.SceneObject;
 
 public class Cube extends SceneObject {
@@ -17,9 +17,28 @@ public class Cube extends SceneObject {
     }
 
     private void buildCube() {
-        Mesh cube = new Mesh(DrawMode.TRIANGLES, new CubeGeometry());
-        ModelElement rectangle = new MaterializedModelElement(cube, Material.getGoldMaterial());
-        getModel().addElement(rectangle);
+        Texture brick = new Texture("textures/roof-texture.jpg");
+
+        Mesh front = new Mesh(DrawMode.TRIANGLES, new FrontSurface());
+        Mesh back = new Mesh(DrawMode.TRIANGLES, new BackSurface());
+        Mesh left = new Mesh(DrawMode.TRIANGLES, new LeftSurface());
+        Mesh right = new Mesh(DrawMode.TRIANGLES, new RightSurface());
+        Mesh top = new Mesh(DrawMode.TRIANGLES, new TopSurface());
+        Mesh bottom = new Mesh(DrawMode.TRIANGLES, new BottomSurface());
+
+        ModelElement frontMesh = new TexturedModelElement(front, brick);
+        ModelElement backMesh = new TexturedModelElement(back, brick);
+        ModelElement leftMesh = new TexturedModelElement(left, brick);
+        ModelElement rightMesh = new TexturedModelElement(right, brick);
+        ModelElement topMesh = new TexturedModelElement(top, brick);
+        ModelElement bottomMesh = new TexturedModelElement(bottom, brick);
+
+        getModel().addElement(frontMesh);
+        getModel().addElement(backMesh);
+        getModel().addElement(leftMesh);
+        getModel().addElement(rightMesh);
+        getModel().addElement(topMesh);
+        getModel().addElement(bottomMesh);
     }
 
     @Override
