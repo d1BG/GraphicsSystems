@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.gs.core;
 
+import bg.tu_varna.sit.gs.core.input.InputHandler;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 
@@ -8,6 +10,7 @@ public class Window {
     private final int width;
     private final int height;
     private final String title;
+    private InputHandler inputHandler;
 
     public Window(int width, int height, String title) {
         this.width = width;
@@ -18,6 +21,9 @@ public class Window {
         this.handle = createWindow();
         initContext();
         configureWindow();
+
+        inputHandler = new InputHandler();
+        inputHandler.init(handle);
     }
 
 
