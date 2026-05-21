@@ -1,7 +1,7 @@
-package bg.tu_varna.sit.gs.demo.objects;
+package bg.tu_varna.sit.gs.demo.objects.demoHouse;
 
-import bg.tu_varna.sit.gs.demo.assets.RectangleGeometry;
-import bg.tu_varna.sit.gs.demo.assets.TriangleGeometry;
+import bg.tu_varna.sit.gs.demo.assets.demoHouse.RectangleGeometry;
+import bg.tu_varna.sit.gs.demo.assets.demoHouse.TriangleGeometry;
 import bg.tu_varna.sit.gs.mesh.DrawMode;
 import bg.tu_varna.sit.gs.mesh.Mesh;
 import bg.tu_varna.sit.gs.model.ModelElement;

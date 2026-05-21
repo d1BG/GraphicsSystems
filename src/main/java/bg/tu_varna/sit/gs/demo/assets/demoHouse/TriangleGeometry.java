@@ -1,4 +1,4 @@
-package bg.tu_varna.sit.gs.demo.assets;
+package bg.tu_varna.sit.gs.demo.assets.demoHouse;
 
 import bg.tu_varna.sit.gs.mesh.Geometry;
 import bg.tu_varna.sit.gs.mesh.VertexAttribute;

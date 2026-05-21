@@ -38,8 +38,6 @@ public class App extends Engine {
                 0.1f, 100f,
                 getWindow().getWidth(), getWindow().getHeight()
         );
-
-        camera.setPosition(new Vector3f(0.0f, 0.0f, 2.0f));
     }
 
     @Override

@@ -4,8 +4,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public abstract class Camera {
-    private Vector3f position = new Vector3f(0, 0, 3);
-    private Vector3f target = new Vector3f(0, 0, 0);
+    private Vector3f position = new Vector3f(1, 1, 1);
+    private Vector3f target = new Vector3f(0.5f, 0.5f, 0.5f);
     private Vector3f up = new Vector3f(0, 1, 0);
 
     private final Matrix4f viewMatrix = new Matrix4f();
@@ -23,6 +23,17 @@ public abstract class Camera {
         this.up = up;
     }
 
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public Vector3f getTarget() {
+        return target;
+    }
+
+    public Vector3f getUp() {
+        return up;
+    }
 
     public Matrix4f getViewMatrix() {
         viewMatrix.identity().lookAt(position, target, up);
