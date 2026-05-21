@@ -2,13 +2,14 @@ package io.github.d1bg.gs.demo.objects.cube;
 
 import io.github.d1bg.gs.core.input.Action;
 import io.github.d1bg.gs.core.input.InputHandler;
-import io.github.d1bg.gs.demo.assets.block.*;
+import io.github.d1bg.gs.demo.assets.fullBlock.*;
 import io.github.d1bg.gs.material.Texture;
 import io.github.d1bg.gs.mesh.DrawMode;
 import io.github.d1bg.gs.mesh.Mesh;
 import io.github.d1bg.gs.model.ModelElement;
 import io.github.d1bg.gs.model.TexturedModelElement;
 import io.github.d1bg.gs.scene.SceneObject;
+import org.joml.Vector3f;
 
 public class Cube extends SceneObject {
 
@@ -16,22 +17,24 @@ public class Cube extends SceneObject {
         buildCube();
     }
 
+    Mesh front = new Mesh(DrawMode.TRIANGLES, new FrontSurface());
+    Mesh back = new Mesh(DrawMode.TRIANGLES, new BackSurface());
+    Mesh left = new Mesh(DrawMode.TRIANGLES, new LeftSurface());
+    Mesh right = new Mesh(DrawMode.TRIANGLES, new RightSurface());
+    Mesh top = new Mesh(DrawMode.TRIANGLES, new TopSurface());
+    Mesh bottom = new Mesh(DrawMode.TRIANGLES, new BottomSurface());
+
     private void buildCube() {
-        Texture brick = new Texture("textures/roof-texture.jpg");
+        Texture sideTexture = new Texture("textures/grass_block_side.png");
+        Texture topTexture = new Texture("textures/grass_block_top.png");
+        Texture bottomTexture = new Texture("textures/dirt.png");
 
-        Mesh front = new Mesh(DrawMode.TRIANGLES, new FrontSurface());
-        Mesh back = new Mesh(DrawMode.TRIANGLES, new BackSurface());
-        Mesh left = new Mesh(DrawMode.TRIANGLES, new LeftSurface());
-        Mesh right = new Mesh(DrawMode.TRIANGLES, new RightSurface());
-        Mesh top = new Mesh(DrawMode.TRIANGLES, new TopSurface());
-        Mesh bottom = new Mesh(DrawMode.TRIANGLES, new BottomSurface());
-
-        ModelElement frontMesh = new TexturedModelElement(front, brick);
-        ModelElement backMesh = new TexturedModelElement(back, brick);
-        ModelElement leftMesh = new TexturedModelElement(left, brick);
-        ModelElement rightMesh = new TexturedModelElement(right, brick);
-        ModelElement topMesh = new TexturedModelElement(top, brick);
-        ModelElement bottomMesh = new TexturedModelElement(bottom, brick);
+        ModelElement frontMesh = new TexturedModelElement(front, sideTexture);
+        ModelElement backMesh = new TexturedModelElement(back, sideTexture);
+        ModelElement leftMesh = new TexturedModelElement(left, sideTexture);
+        ModelElement rightMesh = new TexturedModelElement(right, sideTexture);
+        ModelElement topMesh = new TexturedModelElement(top, topTexture);
+        ModelElement bottomMesh = new TexturedModelElement(bottom, bottomTexture);
 
         getModel().addElement(frontMesh);
         getModel().addElement(backMesh);
@@ -39,6 +42,8 @@ public class Cube extends SceneObject {
         getModel().addElement(rightMesh);
         getModel().addElement(topMesh);
         getModel().addElement(bottomMesh);
+
+        getTransform().setPivot(new Vector3f(0.5f));
     }
 
     @Override

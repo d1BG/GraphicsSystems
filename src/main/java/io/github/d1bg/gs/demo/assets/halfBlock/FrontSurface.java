@@ -1,4 +1,4 @@
-package io.github.d1bg.gs.demo.assets.block;
+package io.github.d1bg.gs.demo.assets.halfBlock;
 
 import io.github.d1bg.gs.mesh.Geometry;
 import io.github.d1bg.gs.mesh.VertexAttribute;

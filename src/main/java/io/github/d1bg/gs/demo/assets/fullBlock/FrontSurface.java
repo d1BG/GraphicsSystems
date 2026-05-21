@@ -1,10 +1,10 @@
-package io.github.d1bg.gs.demo.assets.block;
+package io.github.d1bg.gs.demo.assets.fullBlock;
 
 import io.github.d1bg.gs.mesh.Geometry;
 import io.github.d1bg.gs.mesh.VertexAttribute;
 
-public class BottomSurface extends Geometry {
-    public BottomSurface() {
+public class FrontSurface extends Geometry {
+    public FrontSurface() {
         setData(createVertices());
         setAttributes(new VertexAttribute[]{
                 new VertexAttribute(0, 3),
@@ -15,13 +15,13 @@ public class BottomSurface extends Geometry {
 
     private float[] createVertices() {
         return new float[] {
-                0, 0, 1, 0, 1, //F
-                1, 0, 1, 1, 1, //G
                 0, 0, 0, 0, 0, //A
+                1, 0, 0, 1, 0, //B
+                0, 1, 0, 0, 1, //C
 
-                1, 0, 1, 1, 1, //G
-                0, 0, 0, 0, 0, //A
-                1, 0, 0, 1, 0  //B
+                0, 1, 0, 0, 1, //C
+                1, 0, 0, 1, 0, //B
+                1, 1, 0, 1, 1  //D
         };
     }
 }

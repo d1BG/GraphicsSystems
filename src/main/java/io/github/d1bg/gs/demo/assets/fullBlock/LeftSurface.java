@@ -1,4 +1,4 @@
-package io.github.d1bg.gs.demo.assets.block;
+package io.github.d1bg.gs.demo.assets.fullBlock;
 
 import io.github.d1bg.gs.mesh.Geometry;
 import io.github.d1bg.gs.mesh.VertexAttribute;
