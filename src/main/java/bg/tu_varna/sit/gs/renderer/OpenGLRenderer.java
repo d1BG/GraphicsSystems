@@ -17,6 +17,8 @@ public class OpenGLRenderer implements Renderer {
         ResourceLoader resourceLoader = new ResourceLoader();
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         shader = new ShaderProgram(
                 resourceLoader.loadResource("shaders/vertexShader.vert"),
                 resourceLoader.loadResource("shaders/fragmentShader.frag")
@@ -38,6 +40,7 @@ public class OpenGLRenderer implements Renderer {
         for (SceneObject sceneObject : scene.getSceneObjects()) {
             Transform transform = sceneObject.getTransform();
             shader.setUniform("modelMatrix", transform.getModelMatrix());
+            shader.setUniform("alpha", sceneObject.getAlpha());
 
             sceneObject.render(shader);
         }
