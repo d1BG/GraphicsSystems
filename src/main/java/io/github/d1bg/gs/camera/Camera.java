@@ -1,12 +1,19 @@
 package io.github.d1bg.gs.camera;
 
+import io.github.d1bg.gs.core.input.Action;
+import io.github.d1bg.gs.core.input.InputHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public abstract class Camera {
-    private Vector3f position = new Vector3f(1, 1, 1);
+    private Vector3f position = new Vector3f(3, 3, 3);
     private Vector3f target = new Vector3f(0.5f, 0.5f, 0.5f);
     private Vector3f up = new Vector3f(0, 1, 0);
+    private Vector3f forward = new Vector3f();
+    private Vector3f right = new Vector3f();
+
+    private float yaw = -90.0f;
+    private float pitch = 0.0f;
 
     private final Matrix4f viewMatrix = new Matrix4f();
     private final Matrix4f projectionMatrix = new Matrix4f();
@@ -45,4 +52,110 @@ public abstract class Camera {
     }
 
     public abstract void updateProjection();
+
+    public void update() {
+        if (InputHandler.isActionPressed(Action.CAMERA_MOVE_LEFT)) {
+            move(MoveDirection.LEFT);
+        }
+
+        if (InputHandler.isActionPressed(Action.CAMERA_MOVE_RIGHT)) {
+            move(MoveDirection.RIGHT);
+        }
+
+        if (InputHandler.isActionPressed(Action.CAMERA_MOVE_FORWARD)) {
+            move(MoveDirection.BACKWARD);
+        }
+
+        if (InputHandler.isActionPressed(Action.CAMERA_MOVE_BACKWARD)) {
+            move(MoveDirection.FORWARD);
+        }
+
+        float rotSpeed = 1f;
+
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_UP)) {
+            rotate(0, rotSpeed);
+        }
+
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_DOWN)) {
+            rotate(0, -rotSpeed);
+        }
+
+        if
+        (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) {
+            rotate(-rotSpeed, 0);
+        }
+
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) {
+            rotate(rotSpeed, 0);
+        }
+    }
+
+    public void move(MoveDirection moveDirection) {
+        float MOVE_SPEED = 0.05f;
+
+        target.sub(position, forward).normalize();
+
+        forward.cross(up, right).normalize();
+
+        Vector3f movement = new Vector3f();
+
+        switch (moveDirection) {
+            case FORWARD:
+                forward.mul(-MOVE_SPEED, movement);
+                break;
+            case BACKWARD:
+                forward.mul(MOVE_SPEED, movement);
+                break;
+            case RIGHT:
+                right.mul(MOVE_SPEED, movement);
+                break;
+            case LEFT:
+                right.mul(-MOVE_SPEED, movement);
+                break;
+        }
+
+        // Apply movement to both position and target to maintain the view direction
+        position.add(movement);
+        target.add(movement);
+    }
+
+    public void rotate(float xOffset, float yOffset) {
+        yaw += xOffset;
+        pitch += yOffset;
+
+        // Constrain the pitch to prevent gimbal lock (flipping upside down)
+        if (pitch > 89.0f) {
+            pitch = 89.0f;
+        }
+        if (pitch < -89.0f) {
+            pitch = -89.0f;
+        }
+
+        updateCameraVectors();
+    }
+
+    private void updateCameraVectors() {
+        forward.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+        forward.y = (float) Math.sin(Math.toRadians(pitch));
+        forward.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
+        forward.normalize();
+
+        position.add(forward, target);
+    }
+
+    public Vector3f getForward() {
+        return forward;
+    }
+
+    public Vector3f getRight() {
+        return right;
+    }
+
+    public float getYaw() {
+        return yaw;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
 }

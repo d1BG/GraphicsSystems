@@ -12,6 +12,16 @@ public class InputHandler {
         window = activeWindow;
         keyBindings.put(Action.DEMO_INCREASE_ALPHA, GLFW_KEY_UP);
         keyBindings.put(Action.DEMO_DECREASE_ALPHA, GLFW_KEY_DOWN);
+
+        keyBindings.put(Action.CAMERA_MOVE_FORWARD, GLFW_KEY_W);
+        keyBindings.put(Action.CAMERA_MOVE_BACKWARD, GLFW_KEY_S);
+        keyBindings.put(Action.CAMERA_MOVE_LEFT, GLFW_KEY_A);
+        keyBindings.put(Action.CAMERA_MOVE_RIGHT, GLFW_KEY_D);
+
+        keyBindings.put(Action.CAMERA_ROTATE_UP, GLFW_KEY_UP);
+        keyBindings.put(Action.CAMERA_ROTATE_DOWN, GLFW_KEY_DOWN);
+        keyBindings.put(Action.CAMERA_ROTATE_LEFT, GLFW_KEY_LEFT);
+        keyBindings.put(Action.CAMERA_ROTATE_RIGHT, GLFW_KEY_RIGHT);
     }
 
     public static boolean isActionPressed(Action action) {

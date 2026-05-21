@@ -42,6 +42,7 @@ public class App extends Engine {
     @Override
     protected void update() {
         scene.update();
+        camera.update();
     }
 
     @Override
