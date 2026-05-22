@@ -10,8 +10,8 @@ public class InputHandler {
 
     public void init(long activeWindow) {
         window = activeWindow;
-        keyBindings.put(Action.DEMO_INCREASE_ALPHA, GLFW_KEY_UP);
-        keyBindings.put(Action.DEMO_DECREASE_ALPHA, GLFW_KEY_DOWN);
+        keyBindings.put(Action.DEMO_INCREASE_ALPHA, GLFW_KEY_RIGHT_BRACKET);
+        keyBindings.put(Action.DEMO_DECREASE_ALPHA, GLFW_KEY_LEFT_BRACKET);
 
         keyBindings.put(Action.CAMERA_MOVE_FORWARD, GLFW_KEY_W);
         keyBindings.put(Action.CAMERA_MOVE_BACKWARD, GLFW_KEY_S);
