@@ -2,9 +2,12 @@ package io.github.d1bg.gs.demo.assets.fullBlock;
 
 import io.github.d1bg.gs.mesh.Geometry;
 import io.github.d1bg.gs.mesh.VertexAttribute;
+import org.joml.Vector3f;
 
 public class LeftSurface extends Geometry {
-    public LeftSurface() {
+    private final Vector3f position;
+    public LeftSurface(Vector3f position) {
+        this.position = position;
         setData(createVertices());
         setAttributes(new VertexAttribute[]{
                 new VertexAttribute(0, 3),
@@ -14,7 +17,7 @@ public class LeftSurface extends Geometry {
     }
 
     private float[] createVertices() {
-        return new float[] {
+        float[] vertices = new float[] {
                 0, 1, 0, 1, 1, //C
                 0, 0, 0, 1, 0, //A
                 0, 0, 1, 0, 0, //F
@@ -23,5 +26,13 @@ public class LeftSurface extends Geometry {
                 0, 0, 1, 0, 0, //F
                 0, 1, 1, 0, 1  //E
         };
+
+        for (int i = 0; i < vertices.length; i+=5){
+            vertices[i] += position.x;
+            vertices[i+1] += position.y;
+            vertices[i+2] += position.z;
+        }
+
+        return vertices;
     }
 }

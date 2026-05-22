@@ -11,57 +11,83 @@ import io.github.d1bg.gs.model.TexturedModelElement;
 import io.github.d1bg.gs.scene.SceneObject;
 import org.joml.Vector3f;
 
-public class Cube extends SceneObject {
+import java.util.ArrayList;
 
-    public Cube() {
-        buildCube();
+public class Cube extends SceneObject {
+    private Vector3f position;
+    private Mesh front;
+    private Mesh back;
+    private Mesh left;
+    private Mesh right;
+    private Mesh top;
+    private Mesh bottom;
+
+    public Cube(Block block, Vector3f position) {
+        this.position = position;
+        this.front = new Mesh(DrawMode.TRIANGLES, new FrontSurface(position));
+        this.back = new Mesh(DrawMode.TRIANGLES, new BackSurface(position));
+        this.left = new Mesh(DrawMode.TRIANGLES, new LeftSurface(position));
+        this.right = new Mesh(DrawMode.TRIANGLES, new RightSurface(position));
+        this.top = new Mesh(DrawMode.TRIANGLES, new TopSurface(position));
+        this.bottom = new Mesh(DrawMode.TRIANGLES, new BottomSurface(position));
+
+        switch (block) {
+            case GRASS:
+                buildCube(
+                        "textures/grass_block_side.png",
+                        "textures/grass_block_top.png",
+                        "textures/dirt.png"
+                );
+                break;
+            case DIRT:
+                buildCube("textures/dirt.png");
+                break;
+            case STONE:
+                buildCube("textures/stone.png");
+                break;
+        }
     }
 
-    Mesh front = new Mesh(DrawMode.TRIANGLES, new FrontSurface());
-    Mesh back = new Mesh(DrawMode.TRIANGLES, new BackSurface());
-    Mesh left = new Mesh(DrawMode.TRIANGLES, new LeftSurface());
-    Mesh right = new Mesh(DrawMode.TRIANGLES, new RightSurface());
-    Mesh top = new Mesh(DrawMode.TRIANGLES, new TopSurface());
-    Mesh bottom = new Mesh(DrawMode.TRIANGLES, new BottomSurface());
 
-    private void buildCube() {
-        Texture sideTexture = new Texture("textures/grass_block_side.png");
-        Texture topTexture = new Texture("textures/grass_block_top.png");
-        Texture bottomTexture = new Texture("textures/dirt.png");
 
-        ModelElement frontMesh = new TexturedModelElement(front, sideTexture);
-        ModelElement backMesh = new TexturedModelElement(back, sideTexture);
-        ModelElement leftMesh = new TexturedModelElement(left, sideTexture);
-        ModelElement rightMesh = new TexturedModelElement(right, sideTexture);
-        ModelElement topMesh = new TexturedModelElement(top, topTexture);
-        ModelElement bottomMesh = new TexturedModelElement(bottom, bottomTexture);
+    private void buildCube(String texture) {
+        Texture singleTexture = new Texture(texture);
 
-        getModel().addElement(frontMesh);
-        getModel().addElement(backMesh);
-        getModel().addElement(leftMesh);
-        getModel().addElement(rightMesh);
-        getModel().addElement(topMesh);
-        getModel().addElement(bottomMesh);
+        ArrayList<ModelElement> walls = new ArrayList<>();
+        walls.add(new TexturedModelElement(front, singleTexture));
+        walls.add(new TexturedModelElement(back, singleTexture));
+        walls.add(new TexturedModelElement(left, singleTexture));
+        walls.add(new TexturedModelElement(right, singleTexture));
+        walls.add(new TexturedModelElement(top, singleTexture));
+        walls.add(new TexturedModelElement(bottom, singleTexture));
 
-        getTransform().setPivot(new Vector3f(0.5f));
+        for (ModelElement wall : walls) {
+            getModel().addElement(wall);
+        }
+
+        getTransform().setPivot(position.add(new Vector3f(0.5f)));
+    }
+
+    private void buildCube(String sideTexture, String topTexture,  String bottomTexture) {
+        Texture sTexture = new Texture(sideTexture);
+        Texture tTexture = new Texture(topTexture);
+        Texture bTexture = new Texture(bottomTexture);
+
+        ArrayList<ModelElement> walls = new ArrayList<>();
+        walls.add(new TexturedModelElement(front, sTexture));
+        walls.add(new TexturedModelElement(back, sTexture));
+        walls.add(new TexturedModelElement(left, sTexture));
+        walls.add(new TexturedModelElement(right, sTexture));
+        walls.add(new TexturedModelElement(top, tTexture));
+        walls.add(new TexturedModelElement(bottom, bTexture));
+
+        for (ModelElement wall : walls) {
+            getModel().addElement(wall);
+        }
+
+        getTransform().setPivot(position.add(new Vector3f(0.5f)));
     }
 
     @Override
-    public void update() {
-        float rotSpeed = 0.5f;
-        getTransform().rotateY(rotSpeed);
-
-        float speed = 0.05f;
-        float alpha = getAlpha();
-        if (InputHandler.isActionPressed(Action.DEMO_INCREASE_ALPHA)) {
-            setAlpha(clamp(alpha + speed));
-        }
-        if (InputHandler.isActionPressed(Action.DEMO_DECREASE_ALPHA)) {
-            setAlpha(clamp(alpha - speed));
-        }
-    }
-
-    private float clamp(float alpha) {
-        return Math.clamp(alpha, 0.0f, 1.0f);
-    }
+    public void update() {}
 }

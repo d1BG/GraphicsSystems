@@ -2,9 +2,12 @@ package io.github.d1bg.gs.demo.assets.fullBlock;
 
 import io.github.d1bg.gs.mesh.Geometry;
 import io.github.d1bg.gs.mesh.VertexAttribute;
+import org.joml.Vector3f;
 
 public class TopSurface extends Geometry {
-    public TopSurface() {
+    private final Vector3f position;
+    public TopSurface(Vector3f position) {
+        this.position = position;
         setData(createVertices());
         setAttributes(new VertexAttribute[]{
                 new VertexAttribute(0, 3),
@@ -14,7 +17,7 @@ public class TopSurface extends Geometry {
     }
 
     private float[] createVertices() {
-        return new float[] {
+        float[] vertices = new float[] {
                 0, 1, 1, 0, 1, //E
                 1, 1, 1, 1, 1, //H
                 0, 1, 0, 0, 0, //C
@@ -23,5 +26,13 @@ public class TopSurface extends Geometry {
                 0, 1, 0, 0, 0, //C
                 1, 1, 0, 1, 0  //D
         };
+
+        for (int i = 0; i < vertices.length; i+=5){
+            vertices[i] += position.x;
+            vertices[i+1] += position.y;
+            vertices[i+2] += position.z;
+        }
+
+        return vertices;
     }
 }
