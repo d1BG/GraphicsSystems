@@ -1,47 +1,45 @@
 package io.github.d1bg.gs.demo;
 
+import io.github.d1bg.gs.demo.assets.chunk.Chunk;
+import io.github.d1bg.gs.demo.objects.chunk.ChunkMap;
+import io.github.d1bg.gs.demo.objects.chunk.ChunkObject;
 import io.github.d1bg.gs.demo.objects.cube.Block;
-import io.github.d1bg.gs.demo.objects.cube.Cube;
 import io.github.d1bg.gs.light.DirectionalLight;
 import io.github.d1bg.gs.scene.Scene;
 import org.joml.Vector3f;
 
-import java.util.Random;
-
 public class SceneBuilder {
-    public static Scene build() {
-        Scene scene = new Scene();
+    public static Scene scene = new Scene();
+    public static ChunkMap chunkMap = new ChunkMap();
 
+    public static Scene build() {
+        setDirLight();
+        return scene;
+    }
+
+    private static void setDirLight() {
         DirectionalLight directionalLight = new DirectionalLight(
                 new Vector3f(5f, -10f, 0f),
                 new Vector3f(0.50f, 0.50f, 0.50f),
                 new Vector3f(0.5f, 0.5f, 0.5f),
                 new Vector3f(1.0f, 1.0f, 1.0f)
         );
-
-
         scene.setDirectionalLight(directionalLight);
+    }
 
-        //chunk
+    public static void buildChunk(int x, int z) {
+        ChunkMap.ChunkPos chunkPosition = new ChunkMap.ChunkPos(
+                (int) Math.ceil(x/16.0),
+                (int) Math.ceil(z/16.0)
+        );
 
-        final int SIZE = 15;
-        Vector3f position = new Vector3f(0f, 0f, 0f);
-        Random random = new Random();
-        for (int i = 0; i <= SIZE; i++) { // Y
-            for  (int j = 0; j <= SIZE; j++) { // X
-                for (int k = 0; k <= SIZE; k++) { // Z
-                    if (random.nextBoolean()) {
-                        if (i == SIZE) {
-                            scene.addSceneObject(new Cube(Block.GRASS, new Vector3f(position.x + j, position.y + i, position.z + k)));
-                        } else {
-                            scene.addSceneObject(new Cube(Block.DIRT, new Vector3f(position.x + j, position.y + i, position.z + k)));
-                        }
+        if (!chunkMap.checkChunk(chunkPosition)) {
+            chunkMap.addChunk(chunkPosition);
 
-                    }
-                }
-            }
+            Chunk chunkData = new Chunk(chunkPosition.x, 0, chunkPosition.z);
+
+            ChunkObject chunkMeshObject = new ChunkObject(chunkData);
+            scene.addSceneObject(chunkMeshObject);
         }
-
-        return scene;
     }
 }

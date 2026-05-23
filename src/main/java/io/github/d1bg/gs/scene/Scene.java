@@ -1,5 +1,6 @@
 package io.github.d1bg.gs.scene;
 
+import io.github.d1bg.gs.camera.Camera;
 import io.github.d1bg.gs.light.AmbientLight;
 import io.github.d1bg.gs.light.DirectionalLight;
 import io.github.d1bg.gs.light.PointLight;
@@ -13,6 +14,11 @@ public class Scene {
     private DirectionalLight directionalLight;
     private PointLight pointLight;
     private SpotLight spotLight;
+    private Camera camera;
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
 
     private final List<SceneObject> sceneObjects = new ArrayList<>();
 

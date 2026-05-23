@@ -5,6 +5,8 @@ import io.github.d1bg.gs.core.input.InputHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static io.github.d1bg.gs.demo.SceneBuilder.*;
+
 public abstract class Camera {
     private Vector3f position = new Vector3f(3, 3, 3);
     private Vector3f target = new Vector3f(0.5f, 0.5f, 0.5f);
@@ -88,17 +90,8 @@ public abstract class Camera {
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) rotate(-rotSpeed, 0);
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) rotate(rotSpeed, 0);
 
-        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_DOWN)) {
-            rotate(0, -rotSpeed);
-        }
-
-        if
-        (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) {
-            rotate(-rotSpeed, 0);
-        }
-
-        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) {
-            rotate(rotSpeed, 0);
+        if (!chunkMap.checkChunk(getPosition())) {
+            buildChunk((int) Math.ceil(getPosition().x), (int) Math.ceil(getPosition().z));
         }
     }
 

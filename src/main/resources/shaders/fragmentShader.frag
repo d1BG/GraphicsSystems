@@ -1,11 +1,12 @@
 #version 460 core
-in vec2 TexCoord;
 in vec3 FragPos;
+in vec3 LocalPos;
+in float BlockId;
 
 out vec4 FragColor;
 
 uniform float alpha;
-uniform sampler2D ourTexture;
+uniform sampler2DArray ourTextureArr;
 
 struct AmbientLight {
     vec3 ambient;
@@ -27,7 +28,20 @@ void main() {
     vec3 dY = dFdy(FragPos);
     vec3 normal = normalize(cross(dX, dY));
 
-    vec4 texColor = texture(ourTexture, TexCoord);
+    vec3 blendWeights = abs(normal);
+    blendWeights /= (blendWeights.x + blendWeights.y + blendWeights.z); // Ensure weights sum to 1.0
+
+    vec3 uvw = LocalPos;
+
+    float layer = round(BlockId);
+    vec4 texX = texture(ourTextureArr, vec3(uvw.zy, layer));
+    vec4 texY = texture(ourTextureArr, vec3(uvw.xz, layer));
+    vec4 texZ = texture(ourTextureArr, vec3(uvw.xy, layer));
+
+    vec4 texColor = (texX * blendWeights.x) +
+    (texY * blendWeights.y) +
+    (texZ * blendWeights.z);
+
     vec3 baseColor = texColor.rgb;
 
     vec3 lightDir = normalize(-directionalLight.direction);
@@ -35,10 +49,9 @@ void main() {
 
     vec3 globalAmbient = ambientLight.ambient * baseColor;
     vec3 ambient = directionalLight.ambient * baseColor;
-
     vec3 diffuse = directionalLight.diffuse * diff * baseColor;
 
-    vec3 finalColor = ambient + diffuse;
+    vec3 finalColor = ambient + diffuse + globalAmbient;
 
     FragColor = vec4(finalColor, texColor.a * alpha);
 }
