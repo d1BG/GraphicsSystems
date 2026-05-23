@@ -13,4 +13,6 @@ public enum Action {
     CAMERA_ROTATE_DOWN,
     CAMERA_ROTATE_LEFT,
     CAMERA_ROTATE_RIGHT,
+
+    LOCK_CURSOR
 }

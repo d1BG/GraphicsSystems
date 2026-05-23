@@ -70,11 +70,23 @@ public abstract class Camera {
             move(MoveDirection.FORWARD);
         }
 
-        float rotSpeed = 1f;
-
-        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_UP)) {
-            rotate(0, rotSpeed);
+        if (InputHandler.isActionHeld(Action.LOCK_CURSOR)) {
+            InputHandler.lockedMouseToggle();
         }
+
+        float sensitivity = 1.0f;
+        float dx = InputHandler.getMouseDX() * sensitivity;
+        float dy = InputHandler.getMouseDY() * sensitivity;
+
+        if (dx != 0.0f || dy != 0.0f) {
+            rotate(dx, dy);
+        }
+
+        float rotSpeed = 1f;
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_UP)) rotate(0, rotSpeed);
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_DOWN)) rotate(0, -rotSpeed);
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) rotate(-rotSpeed, 0);
+        if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) rotate(rotSpeed, 0);
 
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_DOWN)) {
             rotate(0, -rotSpeed);
@@ -91,7 +103,7 @@ public abstract class Camera {
     }
 
     public void move(MoveDirection moveDirection) {
-        float MOVE_SPEED = 0.05f;
+        float MOVE_SPEED = 0.1f;
 
         target.sub(position, forward).normalize();
 
