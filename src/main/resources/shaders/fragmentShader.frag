@@ -13,43 +13,14 @@ struct AmbientLight {
 
 struct DirectionalLight {
     vec3 direction;
-
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-};
-
-struct PointLight {
-    vec3 position;
-
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-
-    float constant;
-    float linear;
-    float quadratic;
-};
-struct SpotLight {
-    vec3 position;
-    vec3 direction;
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-    float innerCutOff;
-    float outerCutOff;
-    float constant;
-    float linear;
-    float quadratic;
 };
 
 uniform AmbientLight ambientLight;
 uniform DirectionalLight directionalLight;
-uniform PointLight pointLight;
-uniform SpotLight spotLight;
-uniform vec3 viewPos;
-uniform float shininess;
-uniform vec3 specularColor;
+
 
 void main() {
     vec3 dX = dFdx(FragPos);
