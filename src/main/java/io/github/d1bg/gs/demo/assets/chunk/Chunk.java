@@ -25,6 +25,7 @@ public class Chunk {
         }
 
         generateTerrain();
+        generateCaves();
     }
 
     private void generateTerrain() {
@@ -51,7 +52,9 @@ public class Chunk {
                 int height = (int) (newNoise * maxTerrainHeight);
 
                 for (int y = 0; y < HEIGHT; y++) {
-                    if (y < height - 3) {
+                    if (y == 0) {
+                        blocks[x][y][z] = Block.BEDROCK;
+                    } else if (y < height - 3) {
                         blocks[x][y][z] = Block.STONE;
                     } else if (y < height) {
                         blocks[x][y][z] = Block.DIRT;
@@ -60,6 +63,33 @@ public class Chunk {
                     } else if (y <= 80) {
                         blocks[x][y][z] = Block.WATER;
                     } else {
+                        blocks[x][y][z] = Block.AIR;
+                    }
+                }
+            }
+        }
+    }
+
+    private void generateCaves() {
+        double scale = 10.0;
+        int maxTerrainHeight = 120;
+
+        for (int x = 0; x < WIDTH; x++) {
+            for (int z = 0; z < WIDTH; z++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    double worldX = (this.chunkX * WIDTH) + x;
+                    double worldZ = (this.chunkZ * WIDTH) + z;
+
+                    // -1.0 to 1.0
+                    double rawNoise01 = noiseGen01.noise(worldX / scale, y / scale, worldZ / scale);
+
+                    // 0.0 to 1.0
+                    double normalizedNoise01 = (rawNoise01 + 1.0) / 2.0;
+                    normalizedNoise01 *= 0.8;
+
+                    int height = (int) (normalizedNoise01 * maxTerrainHeight) + 15;
+
+                    if (normalizedNoise01 > 0.5 && y<height && (blocks[x][y][z] != Block.WATER && blocks[x][y][z] != Block.BEDROCK)) {
                         blocks[x][y][z] = Block.AIR;
                     }
                 }

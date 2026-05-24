@@ -5,5 +5,6 @@ public enum Block {
     DIRT,
     GRASS,
     WATER,
+    BEDROCK,
     AIR
 }

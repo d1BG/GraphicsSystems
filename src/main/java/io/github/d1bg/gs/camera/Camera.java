@@ -100,7 +100,6 @@ public abstract class Camera {
             buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(1*16));
             buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)-(1*16));
             buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(0*16));
-
         }
     }
 
@@ -110,7 +109,6 @@ public abstract class Camera {
         if (InputHandler.isActionPressed(Action.CAMERA_MOVE_SPRINT)) {
             MOVE_SPEED = 0.5f;
         }
-
 
         target.sub(position, forward).normalize();
 

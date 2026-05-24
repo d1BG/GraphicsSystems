@@ -28,6 +28,7 @@ public class ChunkObject extends SceneObject {
                     "textures/dirt.png",
                     "textures/grass_block_top.png",
                     "textures/water.png",
+                    "textures/bedrock.png",
             };
             sharedChunkTextures = new TextureArray(textures);
         }
