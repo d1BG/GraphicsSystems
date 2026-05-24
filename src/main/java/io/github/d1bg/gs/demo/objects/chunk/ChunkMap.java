@@ -25,7 +25,6 @@ public class ChunkMap {
 
     public static class ChunkPos {
         public int x;
-        public int y;
         public int z;
 
         public ChunkPos(int x, int z) {

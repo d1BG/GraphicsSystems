@@ -81,27 +81,45 @@ public class ChunkMeshBuilder {
                     float offsetY = (chunk.chunkY * Chunk.SIZE) + y;
                     float offsetZ = (chunk.chunkZ * Chunk.SIZE) + z;
 
-                    if (chunk.getBlock(x, y + 1, z) == Block.AIR) {
-                        addFace(vertices, TOP_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
+                    switch (chunk.getBlock(x, y + 1, z)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
+                            addFace(vertices, TOP_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
 
-                    if (chunk.getBlock(x, y - 1, z) == Block.AIR) {
+                    switch (chunk.getBlock(x, y - 1, z)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
                         addFace(vertices, BOTTOM_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
 
-                    if (chunk.getBlock(x, y, z + 1) == Block.AIR) {
+                    switch (chunk.getBlock(x, y, z + 1)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
                         addFace(vertices, FRONT_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
 
-                    if (chunk.getBlock(x, y, z - 1) == Block.AIR) {
+                    switch (chunk.getBlock(x, y, z - 1)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
                         addFace(vertices, BACK_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
 
-                    if (chunk.getBlock(x + 1, y, z) == Block.AIR) {
+                    switch (chunk.getBlock(x + 1, y, z)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
                         addFace(vertices, RIGHT_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
 
-                    if (chunk.getBlock(x - 1, y, z) == Block.AIR) {
+                    switch (chunk.getBlock(x - 1, y, z)) {
+                        case Block.WATER:
+                            if (currentBlock == Block.WATER) break;
+                        case Block.AIR:
                         addFace(vertices, LEFT_FACE, offsetX, offsetY, offsetZ, getBlockId(currentBlock));
                     }
                 }
@@ -124,6 +142,7 @@ public class ChunkMeshBuilder {
             case STONE -> 0.0f;
             case DIRT -> 1.0f;
             case GRASS -> 2.0f;
+            case WATER -> 3.0f;
             default -> 0;
         };
     }
