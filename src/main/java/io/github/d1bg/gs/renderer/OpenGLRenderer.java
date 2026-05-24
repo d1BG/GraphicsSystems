@@ -39,6 +39,11 @@ public class OpenGLRenderer implements Renderer {
     public void render(Scene scene, Camera camera) {
         shader.use();
 
+        float skyR = 0.43f;
+        float skyG = 0.70f;
+        float skyB = 0.80f;
+        glClearColor(skyR, skyG, skyB, 1.0f);
+
         shader.setUniform("viewMatrix", camera.getViewMatrix());
         shader.setUniform("projectionMatrix", camera.getProjectionMatrix());
 

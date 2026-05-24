@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 import static io.github.d1bg.gs.demo.SceneBuilder.*;
 
 public abstract class Camera {
-    private Vector3f position = new Vector3f(3, 3, 3);
+    private Vector3f position = new Vector3f(0, 90, 0);
     private Vector3f target = new Vector3f(0.5f, 0.5f, 0.5f);
     private Vector3f up = new Vector3f(0, 1, 0);
     private Vector3f forward = new Vector3f();
