@@ -4,6 +4,8 @@ import io.github.d1bg.gs.demo.objects.cube.Block;
 import io.github.d1bg.gs.utils.NoiseGenerator;
 
 public class Chunk {
+    static NoiseGenerator noiseGen01;
+
     public static final int WIDTH = 16;
     public static final int HEIGHT = 256;
     private Block[][][] blocks = new Block[WIDTH][HEIGHT][WIDTH];
@@ -14,12 +16,16 @@ public class Chunk {
         this.chunkY = y;
         this.chunkZ = z;
 
+        if (noiseGen01 == null) {
+            noiseGen01 = new NoiseGenerator();
+        }
+
         generateTerrain();
     }
 
     private void generateTerrain() {
-        double scale = 50.0;
-        int maxTerrainHeight = 100;
+        double scale = 60.0;
+        int maxTerrainHeight = 160;
 
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < WIDTH; z++) {
@@ -27,7 +33,7 @@ public class Chunk {
                 double worldZ = (this.chunkZ * WIDTH) + z;
 
                 // -1.0 to 1.0
-                double rawNoise = NoiseGenerator.noise(worldX / scale, 0.0, worldZ / scale);
+                double rawNoise = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
 
                 // 0.0 to 1.0
                 double normalizedNoise = (rawNoise + 1.0) / 2.0;
