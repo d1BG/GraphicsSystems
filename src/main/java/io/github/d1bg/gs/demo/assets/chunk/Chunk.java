@@ -5,6 +5,8 @@ import io.github.d1bg.gs.utils.NoiseGenerator;
 
 public class Chunk {
     static NoiseGenerator noiseGen01;
+    static NoiseGenerator noiseGen02;
+    static NoiseGenerator noiseGen03;
 
     public static final int WIDTH = 16;
     public static final int HEIGHT = 256;
@@ -18,6 +20,8 @@ public class Chunk {
 
         if (noiseGen01 == null) {
             noiseGen01 = new NoiseGenerator();
+            noiseGen02 = new NoiseGenerator();
+            noiseGen03 = new NoiseGenerator();
         }
 
         generateTerrain();
@@ -25,7 +29,7 @@ public class Chunk {
 
     private void generateTerrain() {
         double scale = 60.0;
-        int maxTerrainHeight = 160;
+        int maxTerrainHeight = 200;
 
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < WIDTH; z++) {
@@ -33,12 +37,18 @@ public class Chunk {
                 double worldZ = (this.chunkZ * WIDTH) + z;
 
                 // -1.0 to 1.0
-                double rawNoise = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
+                double rawNoise01 = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
+                double rawNoise02 = noiseGen02.noise(worldX / (scale/2), 0.0, worldZ / (scale/2));
+                double rawNoise03 = noiseGen03.noise(worldX / (scale*3), 0.0, worldZ / (scale*3));
 
                 // 0.0 to 1.0
-                double normalizedNoise = (rawNoise + 1.0) / 2.0;
+                double normalizedNoise01 = (rawNoise01 + 1.0) / 2.0;
+                double normalizedNoise02 = (rawNoise02 + 1.0) / 2.0;
+                double normalizedNoise03 = (rawNoise03 + 1.0) / 2.0;
 
-                int height = (int) (normalizedNoise * maxTerrainHeight);
+                double newNoise = normalizedNoise01/3 + normalizedNoise02/3 + normalizedNoise03/3;
+
+                int height = (int) (newNoise * maxTerrainHeight);
 
                 for (int y = 0; y < HEIGHT; y++) {
                     if (y < height - 3) {
@@ -47,7 +57,7 @@ public class Chunk {
                         blocks[x][y][z] = Block.DIRT;
                     } else if (y == height) {
                         blocks[x][y][z] = Block.GRASS;
-                    } else if (y <= 64) {
+                    } else if (y <= 80) {
                         blocks[x][y][z] = Block.WATER;
                     } else {
                         blocks[x][y][z] = Block.AIR;

@@ -19,6 +19,7 @@ public class InputHandler {
         keyBindings.put(Action.DEMO_INCREASE_ALPHA, GLFW_KEY_RIGHT_BRACKET);
         keyBindings.put(Action.DEMO_DECREASE_ALPHA, GLFW_KEY_LEFT_BRACKET);
 
+        keyBindings.put(Action.CAMERA_MOVE_SPRINT, GLFW_KEY_LEFT_CONTROL);
         keyBindings.put(Action.CAMERA_MOVE_FORWARD, GLFW_KEY_W);
         keyBindings.put(Action.CAMERA_MOVE_BACKWARD, GLFW_KEY_S);
         keyBindings.put(Action.CAMERA_MOVE_LEFT, GLFW_KEY_A);

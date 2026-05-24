@@ -29,8 +29,8 @@ public class SceneBuilder {
 
     public static void buildChunk(int x, int z) {
         ChunkMap.ChunkPos chunkPosition = new ChunkMap.ChunkPos(
-                (int) Math.ceil(x/16.0),
-                (int) Math.ceil(z/16.0)
+                (int) Math.ceil(x/16.0) - 1,
+                (int) Math.ceil(z/16.0) - 1
         );
 
         if (!chunkMap.checkChunk(chunkPosition)) {
