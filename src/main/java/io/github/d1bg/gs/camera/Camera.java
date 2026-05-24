@@ -91,12 +91,26 @@ public abstract class Camera {
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) rotate(rotSpeed, 0);
 
         if (!chunkMap.checkChunk(getPosition())) {
-            buildChunk((int) Math.ceil(getPosition().x), (int) Math.ceil(getPosition().z));
+            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)-(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)+(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)+(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)-(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)+(0*16));
+            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)+(0*16));
+            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)-(1*16));
+            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(0*16));
+
         }
     }
 
     public void move(MoveDirection moveDirection) {
         float MOVE_SPEED = 0.1f;
+
+        if (InputHandler.isActionPressed(Action.CAMERA_MOVE_SPRINT)) {
+            MOVE_SPEED = 0.5f;
+        }
+
 
         target.sub(position, forward).normalize();
 

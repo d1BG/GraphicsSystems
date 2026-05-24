@@ -34,7 +34,7 @@ public class App extends Engine {
 
         camera = new PerspectiveCamera(
                 (float) Math.toRadians(110.0),
-                0.05f, 100f,
+                0.05f, 500f,
                 getWindow().getWidth(), getWindow().getHeight()
         );
         scene.setCamera(camera);
