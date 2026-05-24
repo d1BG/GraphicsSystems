@@ -70,16 +70,16 @@ public class ChunkMeshBuilder {
     public static float[] buildMesh(Chunk chunk) {
         List<Float> vertices = new ArrayList<>();
 
-        for (int x = 0; x < Chunk.SIZE; x++) {
-            for (int y = 0; y < Chunk.SIZE; y++) {
-                for (int z = 0; z < Chunk.SIZE; z++) {
+        for (int x = 0; x < Chunk.WIDTH; x++) {
+            for (int y = 0; y < Chunk.HEIGHT; y++) {
+                for (int z = 0; z < Chunk.WIDTH; z++) {
 
                     Block currentBlock = chunk.getBlock(x, y, z);
                     if (currentBlock == Block.AIR) continue;
 
-                    float offsetX = (chunk.chunkX * Chunk.SIZE) + x;
-                    float offsetY = (chunk.chunkY * Chunk.SIZE) + y;
-                    float offsetZ = (chunk.chunkZ * Chunk.SIZE) + z;
+                    float offsetX = (chunk.chunkX * Chunk.WIDTH) + x;
+                    float offsetY = (chunk.chunkY * Chunk.HEIGHT) + y;
+                    float offsetZ = (chunk.chunkZ * Chunk.WIDTH) + z;
 
                     switch (chunk.getBlock(x, y + 1, z)) {
                         case Block.WATER:
