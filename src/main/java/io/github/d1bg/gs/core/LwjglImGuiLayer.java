@@ -9,6 +9,9 @@ public class LwjglImGuiLayer {
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
 
+    public static String position = "";
+    public static String biome = "";
+
     public void initImGui(long windowHandle) {
         ImGui.createContext();
 
@@ -16,7 +19,7 @@ public class LwjglImGuiLayer {
         imGuiGlfw.init(windowHandle, true);
 
         // Initialize OpenGL 3 binding (adjust the GLSL version string to match your setup)
-        imGuiGl3.init("#version 330 core");
+        imGuiGl3.init("#version 460 core");
     }
 
     public void renderImGui() {
@@ -26,8 +29,9 @@ public class LwjglImGuiLayer {
         ImGui.newFrame();
 
         // 2. Build your ImGui UI
-        ImGui.begin("LWJGL Integration");
-        ImGui.text("Running manually inside an LWJGL loop!");
+        ImGui.begin("Game Info");
+        ImGui.text(position);
+        ImGui.text(biome);
         ImGui.end();
 
         // 3. Render the UI

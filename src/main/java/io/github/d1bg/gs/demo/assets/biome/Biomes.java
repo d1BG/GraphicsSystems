@@ -15,4 +15,13 @@ public enum Biomes {
     public void setInfluence(double influence) {
         this.influence = influence;
     }
+
+    public String toString() {
+        return switch (this) {
+            case PLAINS -> "Plains";
+            case MOUNTAINS -> "Mountains";
+            case OCEANS -> "Oceans";
+            case DESERT -> "Desert";
+        };
+    }
 }

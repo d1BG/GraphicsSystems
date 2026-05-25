@@ -1,7 +1,10 @@
 package io.github.d1bg.gs.camera;
 
+import io.github.d1bg.gs.core.LwjglImGuiLayer;
 import io.github.d1bg.gs.core.input.Action;
 import io.github.d1bg.gs.core.input.InputHandler;
+import io.github.d1bg.gs.demo.assets.biome.BiomeGeneratorFactory;
+import io.github.d1bg.gs.demo.assets.biome.Biomes;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -101,6 +104,10 @@ public abstract class Camera {
             buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)-(1*16));
             buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(0*16));
         }
+
+        LwjglImGuiLayer.position = "X: " + String.format("%01f", position.x) + "; Y: " + String.format("%01f", position.y) + "; Z: " + String.format("%01f", position.z);
+        Biomes b = BiomeGeneratorFactory.getBiome((int) position.x, (int) position.z);
+        LwjglImGuiLayer.biome = "Biome: " + b + " (Influence: " + String.format("%01f", b.getInfluence()) + ")";
     }
 
     public void move(MoveDirection moveDirection) {
