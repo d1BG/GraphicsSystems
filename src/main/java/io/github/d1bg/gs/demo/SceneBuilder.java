@@ -41,7 +41,8 @@ public class SceneBuilder {
         );
 
         if (!chunkMap.checkChunk(chunkPosition)) {
-
+            chunkMap.addChunk(chunkPosition);
+            
             Chunk chunkData = new Chunk(chunkPosition.x, 0, chunkPosition.z);
 
             ChunkObject chunkMeshObject = new ChunkObject(chunkData);
