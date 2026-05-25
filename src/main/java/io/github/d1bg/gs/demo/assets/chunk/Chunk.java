@@ -1,12 +1,16 @@
 package io.github.d1bg.gs.demo.assets.chunk;
 
+import io.github.d1bg.gs.demo.assets.biome.BiomeGenerator;
+import io.github.d1bg.gs.demo.assets.biome.BiomeGeneratorFactory;
 import io.github.d1bg.gs.demo.objects.cube.Block;
 import io.github.d1bg.gs.utils.NoiseGenerator;
 
+import static io.github.d1bg.gs.demo.assets.biome.BiomeGeneratorFactory.getBiomeGenerator;
+
 public class Chunk {
-    static NoiseGenerator noiseGen01;
-    static NoiseGenerator noiseGen02;
-    static NoiseGenerator noiseGen03;
+    public static NoiseGenerator noiseGen01;
+    public static NoiseGenerator noiseGen02;
+    public static NoiseGenerator noiseGen03;
 
     public static final int WIDTH = 16;
     public static final int HEIGHT = 256;
@@ -29,42 +33,16 @@ public class Chunk {
     }
 
     private void generateTerrain() {
-        double scale = 60.0;
-        int maxTerrainHeight = 200;
-
         for (int x = 0; x < WIDTH; x++) {
             for (int z = 0; z < WIDTH; z++) {
-                double worldX = (this.chunkX * WIDTH) + x;
-                double worldZ = (this.chunkZ * WIDTH) + z;
+                int worldX = (chunkX * WIDTH) + x;
+                int worldZ = (chunkZ * WIDTH) + z;
 
-                // -1.0 to 1.0
-                double rawNoise01 = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
-                double rawNoise02 = noiseGen02.noise(worldX / (scale/2), 0.0, worldZ / (scale/2));
-                double rawNoise03 = noiseGen03.noise(worldX / (scale*3), 0.0, worldZ / (scale*3));
-
-                // 0.0 to 1.0
-                double normalizedNoise01 = (rawNoise01 + 1.0) / 2.0;
-                double normalizedNoise02 = (rawNoise02 + 1.0) / 2.0;
-                double normalizedNoise03 = (rawNoise03 + 1.0) / 2.0;
-
-                double newNoise = normalizedNoise01/3 + normalizedNoise02/3 + normalizedNoise03/3;
-
-                int height = (int) (newNoise * maxTerrainHeight);
+                BiomeGenerator biomeGen = getBiomeGenerator(BiomeGeneratorFactory.getBiome(worldX, worldZ));
+                int height = biomeGen.getHeight(worldX, worldZ);
 
                 for (int y = 0; y < HEIGHT; y++) {
-                    if (y == 0) {
-                        blocks[x][y][z] = Block.BEDROCK;
-                    } else if (y < height - 3) {
-                        blocks[x][y][z] = Block.STONE;
-                    } else if (y < height) {
-                        blocks[x][y][z] = Block.DIRT;
-                    } else if (y == height) {
-                        blocks[x][y][z] = Block.GRASS;
-                    } else if (y <= 80) {
-                        blocks[x][y][z] = Block.WATER;
-                    } else {
-                        blocks[x][y][z] = Block.AIR;
-                    }
+                    blocks[x][y][z] = biomeGen.getBlock(y, height);
                 }
             }
         }
@@ -89,7 +67,7 @@ public class Chunk {
 
                     int height = (int) (normalizedNoise01 * maxTerrainHeight) + 15;
 
-                    if (normalizedNoise01 > 0.5 && y<height && (blocks[x][y][z] != Block.WATER && blocks[x][y][z] != Block.BEDROCK)) {
+                    if (normalizedNoise01 > 0.5 && y < height && (blocks[x][y][z] != Block.WATER && blocks[x][y][z] != Block.BEDROCK)) {
                         blocks[x][y][z] = Block.AIR;
                     }
                 }
