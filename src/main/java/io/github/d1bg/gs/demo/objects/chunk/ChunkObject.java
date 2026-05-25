@@ -27,6 +27,7 @@ public class ChunkObject extends SceneObject {
                     "textures/stone.png",
                     "textures/dirt.png",
                     "textures/grass_block_top.png",
+                    "textures/sand.png",
                     "textures/water.png",
                     "textures/bedrock.png",
             };
