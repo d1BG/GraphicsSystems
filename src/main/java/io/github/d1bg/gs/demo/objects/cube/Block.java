@@ -7,5 +7,6 @@ public enum Block {
     SAND,
     WATER,
     BEDROCK,
+    GRAVEL,
     AIR
 }

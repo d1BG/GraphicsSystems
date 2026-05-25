@@ -18,7 +18,7 @@ public class OceansGenerator implements BiomeGenerator {
     @Override
     public int getHeight(int worldX, int worldZ) {
         double scale = DEFAULT_SCALE + (50 * this.influence);
-        int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT - Math.round(50 * this.influence));
+        int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT - Math.round(DEFAULT_TERRAIN_HEIGHT * this.influence));
 
         double rawNoise01 = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
         double rawNoise02 = noiseGen02.noise(worldX / (scale/2), 0.0, worldZ / (scale/2));
@@ -40,7 +40,7 @@ public class OceansGenerator implements BiomeGenerator {
         } else if (y < finalHeight - 3) {
             return Block.STONE;
         } else if (y <= finalHeight) {
-            return Block.DIRT;
+            return Block.GRAVEL;
         } else if (y <= DEFAULT_WATER_LEVEL) {
             return Block.WATER;
         } else {

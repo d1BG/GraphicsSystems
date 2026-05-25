@@ -17,8 +17,8 @@ public class PlainsGenerator implements BiomeGenerator {
 
     @Override
     public int getHeight(int worldX, int worldZ) {
-        double scale = DEFAULT_SCALE + (DEFAULT_SCALE * this.influence);
-        int maxTerrainHeight = DEFAULT_TERRAIN_HEIGHT;
+        double scale = DEFAULT_SCALE + ((DEFAULT_SCALE*1.5) * this.influence);
+        int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT + Math.round(10 * this.influence));
 
         double rawNoise01 = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
         double rawNoise02 = noiseGen02.noise(worldX / (scale/2), 0.0, worldZ / (scale/2));

@@ -145,6 +145,8 @@ public class ChunkMeshBuilder {
             case SAND -> 3.0f;
             case WATER -> 4.0f;
             case BEDROCK -> 5.0f;
+            case GRAVEL -> 6.0f;
+
             default -> 0;
         };
     }

@@ -2,6 +2,8 @@ package io.github.d1bg.gs.demo.assets.biome;
 
 import io.github.d1bg.gs.demo.objects.cube.Block;
 
+import java.util.Random;
+
 import static io.github.d1bg.gs.demo.assets.chunk.Chunk.*;
 
 public class MountainsGenerator implements BiomeGenerator {
@@ -16,7 +18,7 @@ public class MountainsGenerator implements BiomeGenerator {
 
     @Override
     public int getHeight(int worldX, int worldZ) {
-        double scale = DEFAULT_SCALE - (50 * this.influence);
+        double scale = DEFAULT_SCALE;
         int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT + Math.round(DEFAULT_TERRAIN_HEIGHT * this.influence));
 
         // Calculate noise exactly once per column
@@ -37,9 +39,15 @@ public class MountainsGenerator implements BiomeGenerator {
     public Block getBlock(int y, int finalHeight) {
         if (y == 0) {
             return Block.BEDROCK;
-        } else if (y <= finalHeight) {
+        } else if (y < finalHeight) {
             return Block.STONE;
-        } else if (y <= DEFAULT_WATER_LEVEL) {
+        } else if (y == finalHeight &&
+                finalHeight <= DEFAULT_TERRAIN_HEIGHT / 1.5 + new Random().nextInt(-10, 20)
+        ) {
+            return Block.GRAVEL;
+        } else if (y == finalHeight){
+            return Block.STONE;
+        }else if (y <= DEFAULT_WATER_LEVEL) {
             return Block.WATER;
         } else {
             return Block.AIR;
