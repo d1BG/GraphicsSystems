@@ -10,6 +10,20 @@ import java.util.Random;
 
 public class NoiseGenerator {
     private final int[] p = new int[512];
+    public NoiseGenerator(int seed) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 256; i++) {
+            list.add(i);
+        }
+
+        Collections.shuffle(list, new Random(seed));
+
+        for (int i = 0; i < 256; i++) {
+            p[i] = list.get(i);
+            p[256 + i] = p[i];
+        }
+    }
+
     public NoiseGenerator() {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 256; i++) {
@@ -48,7 +62,7 @@ public class NoiseGenerator {
         int BA = p[B]   + Z;
         int BB = p[B+1] + Z;
 
-        // AND ADD BLENDED RESULTS FROM  8 CORNERS OF CUBE
+        // AND ADD BLENDED RESULTS FROM 8 CORNERS OF CUBE
         return lerp(w,
                 lerp(v,
                         lerp(u,
