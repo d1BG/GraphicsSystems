@@ -3,6 +3,7 @@ package io.github.d1bg.gs.app;
 import io.github.d1bg.gs.camera.Camera;
 import io.github.d1bg.gs.camera.PerspectiveCamera;
 import io.github.d1bg.gs.core.Engine;
+import io.github.d1bg.gs.core.LwjglImGuiLayer;
 import io.github.d1bg.gs.core.Window;
 import io.github.d1bg.gs.demo.SceneBuilder;
 import io.github.d1bg.gs.renderer.OpenGLRenderer;
@@ -17,6 +18,8 @@ public class App extends Engine {
     private Scene scene;
     private Camera camera;
 
+    private LwjglImGuiLayer imGuiLayer;
+
     public App(int width, int height, String title) {
         this.width = width;
         this.height = height;
@@ -25,7 +28,12 @@ public class App extends Engine {
 
     @Override
     protected void init() {
-        setWindow(new Window(width, height, title));
+        Window window = new Window(width, height, title);
+
+        setWindow(window);
+
+        imGuiLayer = new LwjglImGuiLayer();
+        imGuiLayer.initImGui(window.getHandle());
 
         scene = SceneBuilder.build();
 
@@ -50,10 +58,13 @@ public class App extends Engine {
     protected void render() {
         renderer.clear();
         renderer.render(scene, camera);
+
+        imGuiLayer.renderImGui();
     }
 
     @Override
     protected void cleanup() {
+        imGuiLayer.destroyImGui();
         renderer.cleanup();
         getWindow().destroy();
     }
