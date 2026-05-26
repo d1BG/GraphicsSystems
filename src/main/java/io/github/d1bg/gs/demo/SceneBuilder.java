@@ -15,12 +15,6 @@ public class SceneBuilder {
     public static Scene build() {
         setDirLight();
 
-        for (int i = -20; i <= 20; i++) {
-            for (int j = -20; j <= 20; j++) {
-                buildChunk(i*16, j*16);
-            }
-        }
-
         return scene;
     }
 

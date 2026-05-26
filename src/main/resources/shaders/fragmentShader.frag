@@ -1,6 +1,5 @@
 #version 460 core
 in vec3 FragPos;
-in vec3 LocalPos;
 in float BlockId;
 
 out vec4 FragColor;
@@ -31,7 +30,7 @@ void main() {
     vec3 blendWeights = abs(normal);
     blendWeights /= (blendWeights.x + blendWeights.y + blendWeights.z); // Ensure weights sum to 1.0
 
-    vec3 uvw = LocalPos;
+    vec3 uvw = FragPos;
 
     float layer = round(BlockId);
     vec4 texX = texture(ourTextureArr, vec3(uvw.zy, layer));

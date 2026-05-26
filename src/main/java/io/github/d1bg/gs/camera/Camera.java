@@ -8,6 +8,7 @@ import io.github.d1bg.gs.demo.assets.biome.Biomes;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static io.github.d1bg.gs.core.LwjglImGuiLayer.renderDistance;
 import static io.github.d1bg.gs.demo.SceneBuilder.*;
 
 public abstract class Camera {
@@ -93,16 +94,10 @@ public abstract class Camera {
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) rotate(-rotSpeed, 0);
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) rotate(rotSpeed, 0);
 
-        if (!chunkMap.checkChunk(getPosition())) {
-            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)-(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)+(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)+(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)-(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)+(1*16), (int) Math.ceil(getPosition().z)+(0*16));
-            buildChunk((int) Math.ceil(getPosition().x)-(1*16), (int) Math.ceil(getPosition().z)+(0*16));
-            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)-(1*16));
-            buildChunk((int) Math.ceil(getPosition().x)+(0*16), (int) Math.ceil(getPosition().z)+(0*16));
+        for (int i = -renderDistance.get();i <= renderDistance.get(); i++) {
+            for (int j = -renderDistance.get(); j <= renderDistance.get(); j++) {
+                buildChunk((int) Math.ceil(getPosition().x) + (i * 16), (int) Math.ceil(getPosition().z) + (j * 16));
+            }
         }
 
         LwjglImGuiLayer.position = "X: " + String.format("%01f", position.x) + "; Y: " + String.format("%01f", position.y) + "; Z: " + String.format("%01f", position.z);
