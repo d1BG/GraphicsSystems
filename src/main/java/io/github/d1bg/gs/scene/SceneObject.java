@@ -18,6 +18,12 @@ public abstract class SceneObject {
 
     public void update(){}
 
+    public void cleanup() {
+        if (model != null) {
+            model.cleanup();
+        }
+    }
+
     public Transform getTransform() {
         return transform;
     }

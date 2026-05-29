@@ -6,9 +6,9 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 
 public class Mesh {
-
     private final int vao;
     private final VertexBuffer vbo;
     private final int vertexCount;
@@ -70,5 +70,15 @@ public class Mesh {
         bindVAO();
         glDrawArrays(drawMode.getGlMode(), 0, vertexCount);
         unbindVAO();
+    }
+
+    public void cleanup() {
+        unbindVAO();
+
+        if (vbo != null) {
+            vbo.cleanup();
+        }
+
+        glDeleteVertexArrays(vao);
     }
 }

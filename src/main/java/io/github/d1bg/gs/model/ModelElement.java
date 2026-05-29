@@ -18,4 +18,10 @@ public class ModelElement {
     public void render(ShaderProgram shader) {
         mesh.render();
     }
+
+    public void cleanup() {
+        if (mesh != null) {
+            mesh.cleanup();
+        }
+    }
 }

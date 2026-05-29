@@ -28,4 +28,9 @@ public class VertexBuffer {
     public int getId() {
         return id;
     }
+
+    public void cleanup() {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteBuffers(id);
+    }
 }

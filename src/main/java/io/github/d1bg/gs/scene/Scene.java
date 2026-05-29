@@ -20,10 +20,21 @@ public class Scene {
         this.camera = camera;
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
     private final List<SceneObject> sceneObjects = new ArrayList<>();
 
     public void addSceneObject(SceneObject sceneObject) {
         sceneObjects.add(sceneObject);
+    }
+
+    public void removeSceneObject(SceneObject sceneObject) {
+        if (sceneObject != null) {
+            sceneObjects.remove(sceneObject);
+            sceneObject.cleanup();
+        }
     }
 
     public List<SceneObject> getSceneObjects() {

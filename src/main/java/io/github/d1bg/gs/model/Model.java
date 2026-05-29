@@ -21,4 +21,14 @@ public class Model {
             element.render(shader);
         }
     }
+
+    public void cleanup() {
+        for (ModelElement element : elements) {
+            if (element != null) {
+                element.cleanup();
+            }
+        }
+
+        elements.clear();
+    }
 }
