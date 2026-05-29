@@ -3,7 +3,6 @@ package io.github.d1bg.gs.demo;
 import io.github.d1bg.gs.demo.assets.chunk.Chunk;
 import io.github.d1bg.gs.demo.objects.chunk.ChunkMap;
 import io.github.d1bg.gs.demo.objects.chunk.ChunkObject;
-import io.github.d1bg.gs.demo.objects.cube.Block;
 import io.github.d1bg.gs.light.DirectionalLight;
 import io.github.d1bg.gs.scene.Scene;
 import org.joml.Vector3f;
@@ -34,10 +33,9 @@ public class SceneBuilder {
                 (int) Math.ceil(z/16.0) - 1
         );
 
-        if (!chunkMap.checkChunk(chunkPosition)) {
-            chunkMap.addChunk(chunkPosition);
-
+        if (chunkMap.checkChunk(chunkPosition) == null) {
             Chunk chunkData = new Chunk(chunkPosition.x, 0, chunkPosition.z);
+            chunkMap.addChunk(chunkPosition, chunkData);
 
             ChunkObject chunkMeshObject = new ChunkObject(chunkData);
             scene.addSceneObject(chunkMeshObject);

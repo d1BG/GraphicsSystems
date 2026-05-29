@@ -5,9 +5,12 @@ import io.github.d1bg.gs.demo.assets.biome.BiomeGeneratorFactory;
 import io.github.d1bg.gs.demo.objects.cube.Block;
 import io.github.d1bg.gs.utils.NoiseGenerator;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import static io.github.d1bg.gs.demo.assets.biome.BiomeGeneratorFactory.getBiomeGenerator;
 
-public class Chunk {
+public class Chunk extends Thread {
     public static NoiseGenerator noiseGen01;
     public static NoiseGenerator noiseGen02;
     public static NoiseGenerator noiseGen03;
@@ -19,7 +22,7 @@ public class Chunk {
 
     public Chunk(int x, int y, int z) {
         this.chunkX = x;
-        this.chunkY = y;
+        this.chunkY = y; // not implemented
         this.chunkZ = z;
 
         if (noiseGen01 == null) {
@@ -80,5 +83,17 @@ public class Chunk {
             return Block.AIR;
         }
         return blocks[x][y][z];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Chunk chunk = (Chunk) o;
+        return chunkX == chunk.chunkX && chunkY == chunk.chunkY && chunkZ == chunk.chunkZ && Objects.deepEquals(blocks, chunk.blocks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.deepHashCode(blocks), chunkX, chunkY, chunkZ);
     }
 }

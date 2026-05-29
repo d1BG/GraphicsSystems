@@ -38,6 +38,10 @@ public class ChunkObject extends SceneObject {
         getModel().addElement(new TexturedModelElement(chunkMesh, sharedChunkTextures));
     }
 
+    public Chunk getChunkData() {
+        return chunkData;
+    }
+
     @Override
     public void update() {
     }

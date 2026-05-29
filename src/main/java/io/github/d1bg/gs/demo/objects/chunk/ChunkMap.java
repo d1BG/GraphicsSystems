@@ -1,5 +1,6 @@
 package io.github.d1bg.gs.demo.objects.chunk;
 
+import io.github.d1bg.gs.demo.assets.chunk.Chunk;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 
@@ -8,19 +9,19 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ChunkMap {
-    private Map<ChunkPos, Boolean> chunkData = new HashMap<ChunkPos, Boolean>();
+    private Map<ChunkPos, Chunk> chunkData = new HashMap<ChunkPos, Chunk>();
 
-    public void addChunk(ChunkPos chunkPos) {
-        chunkData.put(chunkPos, true);
+    public void addChunk(ChunkPos chunkPos, Chunk chunk) {
+        chunkData.put(chunkPos, chunk);
     }
 
-    public boolean checkChunk(ChunkPos pos) {
-        return chunkData.getOrDefault(pos, Boolean.FALSE);
+    public Chunk checkChunk(ChunkPos pos) {
+        return chunkData.getOrDefault(pos, null);
     }
 
-    public boolean checkChunk(Vector3f CamPos) {
+    public Chunk checkChunk(Vector3f CamPos) {
         ChunkPos pos = new ChunkPos((int) Math.ceil(CamPos.x/16), (int) Math.ceil(CamPos.z/16));
-        return chunkData.getOrDefault(pos, Boolean.FALSE);
+        return chunkData.getOrDefault(pos, null);
     }
 
     public static class ChunkPos {
