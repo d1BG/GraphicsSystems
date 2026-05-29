@@ -10,31 +10,26 @@ public class BiomeGeneratorFactory {
     private static final BiomeGenerator mountainsGenerator = new MountainsGenerator();
 
     public static Biomes getBiome(int x, int z) {
-        double scale = 250;
+        double scale = 500;
 
         double rawNoise01 = noiseGen01.noise(x / scale, 0.0, z / scale);
-        double rawNoise02 = noiseGen02.noise(x / (scale*2), 0.0, z / (scale*2));
-        double rawNoise03 = noiseGen03.noise(x / (scale/2), 0.0, z / (scale/2));
-
-        double normalizedNoise01 = (rawNoise01 + 1.0) / 2.0;
-        double normalizedNoise02 = (rawNoise02 + 1.0) / 2.0;
-        double normalizedNoise03 = (rawNoise03 + 1.0) / 2.0;
-
-        double finalNoise = normalizedNoise01*normalizedNoise02 + normalizedNoise03*normalizedNoise02;
+        rawNoise01 += noiseGen03.noise(x / (scale*2), 0.0, z / (scale*2));
+        double finalNoise = (rawNoise01 + 2.0) / 4.0;
 
         Biomes b;
-        if (finalNoise < 0.25) {
+        if (finalNoise < 0.38) {
             b = Biomes.OCEANS;
-        } else if (finalNoise < 0.5) {
+            b.setInfluence(calculateInfluence(finalNoise, 0.0, 0.38));
+        } else if (finalNoise < 0.50) {
             b = Biomes.DESERT;
-        } else if (finalNoise < 0.75) {
+            b.setInfluence(calculateInfluence(finalNoise, 0.38, 0.50));
+        } else if (finalNoise < 0.62) {
             b = Biomes.PLAINS;
+            b.setInfluence(calculateInfluence(finalNoise, 0.50, 0.62));
         } else {
             b = Biomes.MOUNTAINS;
+            b.setInfluence(calculateInfluence(finalNoise, 0.62, 1.0));
         }
-
-        finalNoise %= 0.25;
-        b.setInfluence(1 - 8 * Math.abs(finalNoise - 0.125) );
         return b;
     }
 
@@ -57,5 +52,12 @@ public class BiomeGeneratorFactory {
                 yield oceansGenerator;
             }
         };
+    }
+
+    public static double calculateInfluence(double noise, double min, double max) {
+        double center = (min + max) / 2.0;
+        double range = (max - min) / 2.0;
+
+        return 1.0 - (Math.abs(noise - center) / range);
     }
 }

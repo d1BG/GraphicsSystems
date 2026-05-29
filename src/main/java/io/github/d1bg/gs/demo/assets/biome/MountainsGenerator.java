@@ -19,9 +19,8 @@ public class MountainsGenerator implements BiomeGenerator {
     @Override
     public int getHeight(int worldX, int worldZ) {
         double scale = DEFAULT_SCALE;
-        int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT + Math.round(DEFAULT_TERRAIN_HEIGHT * this.influence));
+        int maxTerrainHeight = Math.toIntExact(DEFAULT_TERRAIN_HEIGHT + Math.round(DEFAULT_TERRAIN_HEIGHT * 1.5 * this.influence));
 
-        // Calculate noise exactly once per column
         double rawNoise01 = noiseGen01.noise(worldX / scale, 0.0, worldZ / scale);
         double rawNoise02 = noiseGen02.noise(worldX / (scale/2), 0.0, worldZ / (scale/2));
         double rawNoise03 = noiseGen03.noise(worldX / (scale*3), 0.0, worldZ / (scale*3));
@@ -32,7 +31,10 @@ public class MountainsGenerator implements BiomeGenerator {
 
         double newNoise = normalizedNoise01/3 + normalizedNoise02/3 + normalizedNoise03/3;
 
-        return (int) (newNoise * maxTerrainHeight);
+        int additionalHeight = 100;
+        additionalHeight *= (int) influence;
+
+        return (int) (newNoise * maxTerrainHeight) + additionalHeight;
     }
 
     @Override
