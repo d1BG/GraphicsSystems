@@ -60,6 +60,13 @@ public abstract class Camera {
     public abstract void updateProjection();
 
     public void update() {
+        updateMovement();
+        updateMouse();
+        renderAroundCamera();
+        updateImGui();
+    }
+
+    private void updateMovement() {
         if (InputHandler.isActionPressed(Action.CAMERA_MOVE_LEFT)) {
             move(MoveDirection.LEFT);
         }
@@ -75,7 +82,9 @@ public abstract class Camera {
         if (InputHandler.isActionPressed(Action.CAMERA_MOVE_BACKWARD)) {
             move(MoveDirection.FORWARD);
         }
+    }
 
+    private void updateMouse() {
         if (InputHandler.isActionHeld(Action.LOCK_CURSOR)) {
             InputHandler.lockedMouseToggle();
         }
@@ -88,21 +97,26 @@ public abstract class Camera {
             rotate(dx, dy);
         }
 
+        // fallback
         float rotSpeed = 1f;
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_UP)) rotate(0, rotSpeed);
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_DOWN)) rotate(0, -rotSpeed);
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_LEFT)) rotate(-rotSpeed, 0);
         if (InputHandler.isActionPressed(Action.CAMERA_ROTATE_RIGHT)) rotate(rotSpeed, 0);
+    }
 
+    private void updateImGui() {
+        LwjglImGuiLayer.position = "X: " + String.format("%01f", position.x) + "; Y: " + String.format("%01f", position.y) + "; Z: " + String.format("%01f", position.z);
+        Biomes b = BiomeGeneratorFactory.getBiome((int) position.x, (int) position.z);
+        LwjglImGuiLayer.biome = "Biome: " + b + " (Influence: " + String.format("%01f", b.getInfluence()) + ")";
+    }
+
+    private void renderAroundCamera() {
         for (int i = -renderDistance.get();i <= renderDistance.get(); i++) {
             for (int j = -renderDistance.get(); j <= renderDistance.get(); j++) {
                 buildChunk((int) Math.ceil(getPosition().x) + (i * 16), (int) Math.ceil(getPosition().z) + (j * 16));
             }
         }
-
-        LwjglImGuiLayer.position = "X: " + String.format("%01f", position.x) + "; Y: " + String.format("%01f", position.y) + "; Z: " + String.format("%01f", position.z);
-        Biomes b = BiomeGeneratorFactory.getBiome((int) position.x, (int) position.z);
-        LwjglImGuiLayer.biome = "Biome: " + b + " (Influence: " + String.format("%01f", b.getInfluence()) + ")";
     }
 
     public void move(MoveDirection moveDirection) {
